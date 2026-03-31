@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "estimate": {
+      "title": "Estimate Request",
+      "description": "A request for a construction estimate from a potential client.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "projectName": { "type": "string" },
+        "clientName": { "type": "string" },
+        "visitDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "estimatedCost": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectName", "clientName", "status"]
+    },
+    "job": {
+      "title": "Construction Job",
+      "description": "An active or completed construction project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "clientName": { "type": "string" },
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["active", "completed", "on-hold"] },
+        "budget": { "type": "number" },
+        "progress": { "type": "number" }
+      },
+      "required": ["title", "status"]
+    },
+    "material": {
+      "title": "Material Order",
+      "description": "An order for construction materials.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "itemName": { "type": "string" },
+        "supplier": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "status": { "type": "string", "enum": ["ordered", "delivered", "pending"] },
+        "orderDate": { "type": "string", "format": "date" }
+      },
+      "required": ["itemName", "supplier", "status"]
+    },
+    "supplier": {
+      "title": "Approved Supplier",
+      "description": "A verified supplier of construction materials.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["verified", "pending"] }
+      },
+      "required": ["name", "status"]
+    },
+    "invoice": {
+      "title": "Invoice",
+      "description": "A billing document for a project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "clientName": { "type": "string" },
+        "projectName": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["paid", "pending", "overdue"] }
+      },
+      "required": ["invoiceNumber", "amount", "status"]
+    },
+    "worker": {
+      "title": "Worker",
+      "description": "A construction worker or contractor.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "trade": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "photoUrl": { "type": "string" }
+      },
+      "required": ["name", "trade", "status"]
+    }
+  },
+  "firestore": {
+    "/estimates": { "schema": "estimate", "description": "Collection of estimate requests." },
+    "/jobs": { "schema": "job", "description": "Collection of construction jobs." },
+    "/materials": { "schema": "material", "description": "Collection of material orders." },
+    "/suppliers": { "schema": "supplier", "description": "Collection of approved suppliers." },
+    "/invoices": { "schema": "invoice", "description": "Collection of invoices." },
+    "/workers": { "schema": "worker", "description": "Collection of workers." }
+  }
+}
